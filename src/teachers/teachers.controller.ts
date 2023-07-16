@@ -1,35 +1,41 @@
 import { Controller, Get, Param, Post, Put, Body } from '@nestjs/common';
+import { CreateTeacherDto, FindTeacherResponseDto } from './dto/teacher.dto';
+import { FindStudentResponseDto } from 'src/student/dto/student.dto';
+import { TeachersService } from './teachers.service';
 
 @Controller('teachers')
 export class TeacherController {
+  constructor(private readonly teacherService: TeachersService) {}
+
   @Get()
-  getTeachers() {
-    return 'All Teachers';
+  getTeachers(): FindTeacherResponseDto[] {
+    return this.teacherService.getTeachers();
   }
 
   @Get('/:teacherId')
-  getTeacherById(@Param('teacherId') teacherId: string) {
-    return `GET Teacher with Id: ${teacherId}`;
+  getTeacherById(
+    @Param('teacherId') teacherId: string,
+  ): FindTeacherResponseDto {
+    return this.teacherService.getTeacherById(teacherId);
   }
 
   @Post()
-  createTeacher(@Body() body) {
-    return `CREATE Teacher with: ${JSON.stringify(body)}`;
+  createTeacher(@Body() body: CreateTeacherDto) {
+    return this.teacherService.createTeacher(body);
   }
 
   @Get('/:teacherId/students')
-  getStudentsForTeacher(@Param('teacherId') teacherId: string) {
-    return `Get All students for teacher with id: ${teacherId}`;
+  getStudentsForTeacher(
+    @Param('teacherId') teacherId: string,
+  ): FindStudentResponseDto[] {
+    return this.teacherService.getStudentsForTeacher(teacherId);
   }
 
   @Put('/:teacherId/students/:studentId')
-  updateTeacher(
+  updateTeacherStudent(
     @Param('teacherId') teacherId: string,
     @Param('studentId') studentId: string,
-    @Body() body,
-  ) {
-    return `UPDATE student with id: ${studentId} for teacher with id: ${teacherId} with data: ${JSON.stringify(
-      body,
-    )}`;
+  ): FindStudentResponseDto {
+    return this.teacherService.updateTeacherStudent(teacherId, studentId);
   }
 }
