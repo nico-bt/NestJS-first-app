@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   CreateStudentDto,
   FindStudentResponseDto,
@@ -17,8 +25,9 @@ export class StudentController {
   }
 
   @Get('/:studentId')
+  //@Param(nombre que dimos a la variable, Pipe -> en este caso verifica que sea un UUID válido, si no devuelve error)
   getStudentById(
-    @Param('studentId') studentId: string,
+    @Param('studentId', new ParseUUIDPipe()) studentId: string,
   ): FindStudentResponseDto {
     return this.studentService.getStudentById(studentId);
   }
@@ -30,7 +39,7 @@ export class StudentController {
 
   @Put('/:studentId')
   updateStudent(
-    @Param('studentId') studentId: string,
+    @Param('studentId', new ParseUUIDPipe()) studentId: string,
     @Body() body: UpdateStudentDto,
   ): FindStudentResponseDto {
     return this.studentService.updateStudent(body, studentId);
