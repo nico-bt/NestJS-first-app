@@ -25,7 +25,7 @@ export let students = [
     teacher: '1c250754-b656-11eb-8529-0242ac130003',
   },
   {
-    id: '1c250666-b656-11zz-8529-0242ac130003',
+    id: 'c832c1ae-c9c9-46b2-9e2e-f6012c411117',
     name: 'Juan Carlos',
     teacher: '1c250754-b656-11eb-8529-0242ac130003',
   },
